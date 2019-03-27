@@ -34,7 +34,7 @@ app.post('/signup', (req, res) => {
   }
 })
 
-app.listen('8080')
+app.listen(process.env.PORT || '8080')
 console.log('started http://localhost:8080/')
 
 // module.exports = app
