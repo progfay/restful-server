@@ -72,7 +72,7 @@ app.get('/users/:user_id', function (req, res) {
 const bearerAuth = (authorization) => {
   if (!authorization) return false
   const [ user_id, password ] = base64decode(authorization.substring(6)).split(':')
-  return user_id in Users && Users[user_id] === password
+  return user_id in Users && Users[user_id].password === password
 }
 
 app.use(function (req, res, next) {
