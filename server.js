@@ -50,7 +50,7 @@ app.post('/signup', (req, res) => {
 })
 
 app.get('/users/:user_id', function (req, res) {
-  if (bearerAuth(req.headers.authorization)) {
+  if (!bearerAuth(req.headers.authorization)) {
     res.status(401).send({ 'message': 'Authentication Faild' })
     return
   }
@@ -72,7 +72,7 @@ app.get('/users/:user_id', function (req, res) {
 const bearerAuth = (authorization) => {
   if (!authorization) return false
   const [ user_id, password ] = base64decode(authorization.substring(6)).split(':')
-  return !(user_id in Users) || Users[user_id] !== password
+  return user_id in Users && Users[user_id] === password
 }
 
 app.use(function (req, res, next) {
