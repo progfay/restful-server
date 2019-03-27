@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const Users = require('./Users')
+const { base64decode } = require('nodejs-base64')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -49,17 +50,30 @@ app.post('/signup', (req, res) => {
 })
 
 app.get('/users/:user_id', function (req, res) {
-  if (!req.headers.authorization) {
-    res.statusMessage(400).send({ 'message': 'Authentication Faild' })
+  if (bearerAuth(req.headers.authorization)) {
+    res.status(400).send({ 'message': 'Authentication Faild' })
     return
   }
 
-  if (req.headers.authorization) {
-
+  const { user_id } = req.params
+  if (!(user_id in Users)) {
+    res.status(400).send({ 'message': 'No User found' })
   }
 
-  res.send('Hello! The API is at http://localhost:8080/api')
+  res.status(200).send({
+    'message': 'User details by user_id',
+    'user': {
+      'user_id': user_id,
+      'nickname': Users[user_id].nickname
+    }
+  })
 })
+
+const bearerAuth = (authorization) => {
+  if (!authorization) return false
+  const [ user_id, password ] = base64decode(authorization.substring(6)).split(':')
+  return !(user_id in Users) || Users[user_id] !== password
+}
 
 app.use(function (req, res, next) {
   res.status(404)
