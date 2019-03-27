@@ -2,12 +2,6 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
-
-const { MONGO_ADDRESS } = process.env
-// const User = require('./app/models/user')
-
-mongoose.connect(MONGO_ADDRESS)
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -40,7 +34,7 @@ app.post('/signup', (req, res) => {
   }
 })
 
-// app.listen('8080')
-// console.log('started http://localhost:8080/')
+app.listen('8080')
+console.log('started http://localhost:8080/')
 
-module.exports = app
+// module.exports = app
