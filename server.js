@@ -12,6 +12,10 @@ app.use(function (req, res, next) {
   res.end('page not found')
 })
 
+app.get('/', function (req, res) {
+  res.send('Hello! The API is at http://localhost:8080/api')
+})
+
 app.post('/signup', (req, res) => {
   const { user_id, password } = req.body
   if (!user_id || !password) {
