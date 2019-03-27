@@ -7,10 +7,6 @@ const Users = require('./Users')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get('/', function (req, res) {
-  res.send('Hello! The API is at http://localhost:8080/api')
-})
-
 app.post('/signup', (req, res) => {
   const { user_id, password } = req.body
   if (!user_id || !password) {
@@ -53,6 +49,15 @@ app.post('/signup', (req, res) => {
 })
 
 app.get('/users/:user_id', function (req, res) {
+  if (!req.headers.authorization) {
+    res.statusMessage(400).send({ 'message': 'Authentication Faild' })
+    return
+  }
+
+  if (req.headers.authorization) {
+
+  }
+
   res.send('Hello! The API is at http://localhost:8080/api')
 })
 
