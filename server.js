@@ -51,7 +51,7 @@ app.post('/signup', (req, res) => {
 
 app.get('/users/:user_id', function (req, res) {
   if (bearerAuth(req.headers.authorization)) {
-    res.status(400).send({ 'message': 'Authentication Faild' })
+    res.status(401).send({ 'message': 'Authentication Faild' })
     return
   }
 
